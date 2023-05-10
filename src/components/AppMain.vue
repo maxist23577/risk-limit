@@ -10,11 +10,11 @@ export default {
         }
     },
 
-    data() {
+/*     data() {
         return {
-            accountsConst2: this.accountsConst
+            accountsConst: this.accountsConst
         }
-    },
+    }, */
 
     methods: {
        removeAccount(accEmail) {
@@ -29,18 +29,16 @@ export default {
 </script>
 
 <template>
-    <div class="listaccounts" v-if="accountsVar.length > 0">
+    <div v-if="accountsVar.length > 0">
         <Accounts v-for="account in accountsVar" :key="account.accEmail" 
         :account="account" 
-        :accountsConst2="accountsConst2"
+        :accounts-const="accountsConst"
         @removeAcc="removeAccount"></Accounts>
         
     </div>
-    <h2 v-else style="color: red">No accounts for monitoring</h2>
+    <h2 v-else style="color: rgba(248, 66, 66, 0.973)">No accounts for monitoring</h2>
 </template>
 
 <style scoped>
-    .listaccounts {
-        overflow-x: scroll;
-    }
+    
 </style>

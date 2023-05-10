@@ -48,11 +48,23 @@ export default {
         },
 
         addNewAccount(newaccountConst) {
-            this.accountsConst.push(newaccountConst)
+            this.accountsConst.push(newaccountConst),
+            this.saveAccounts()
             },
+            
 
         removeAccount(accEmail) {
-            this.accountsConst = this.accountsConst.filter(p => p.accEmail !== accEmail)
+            this.accountsConst = this.accountsConst.filter(p => p.accEmail !== accEmail);
+            this.saveAccounts()
+        },
+
+        saveAccounts() {
+            const parsed = JSON.stringify(this.accountsConst)
+            localStorage.setItem('accountsConst', parsed)
+        },
+
+        btnClrData() {
+            localStorage.removeItem('accountsConst')
         },
 
         cancelAddAcc() {
@@ -77,9 +89,9 @@ export default {
 
     mounted() {
         this.startTimer();
-        /* if (localStorage.accountsConst) {
-            this.accountsConst = localStorage.accountsConst
-        }; */
+        if (localStorage.getItem('accountsConst')) {
+            this.accountsConst = JSON.parse(localStorage.getItem('accountsConst'))
+        };
         if (localStorage.masterApi) {
             this.masterApi = localStorage.masterApi
         };
@@ -89,9 +101,6 @@ export default {
     },
     
     watch: {
-        /* accountsConst(accountsConst) {
-            localStorage.accountsConst = accountsConst
-        }, */
         masterApi(masterApi) {
             localStorage.masterApi = masterApi
         },
@@ -99,7 +108,7 @@ export default {
             localStorage.masterSecret = masterSecret
         },
     },
-    
+
     beforeDestroy() {
         this.stopTimer()
     }
@@ -113,7 +122,9 @@ export default {
     <p>Master Account API-Key<input type="password" v-model="masterApi" style="width: 330px; margin-left: 5px; font-size: 12px; text-align: left;"></p>
     <p>Master Account API-Secret<input type="password" v-model="masterSecret" style="width: 330px; margin-left: 5px; font-size: 12px; text-align: left;"></p>
     <p><button v-show="btnAddAcc2" style="border: 1px; border-radius: 7px; border-style:dotted ; border-color: black; font-size: 16px; background-color: darkgreen; color: whitesmoke;" 
-        @click="btnAddAcc=true, btnAddAcc2=false">ADD Account</button></p>
+        @click="btnAddAcc=true, btnAddAcc2=false">ADD SubAccount</button>
+        <button v-show="btnAddAcc2" style="border: 1px; border-radius: 7px; border-style:dotted ;margin-left: 5px; border-color: black; font-size: 16px; background-color: rgb(22, 15, 122); color: whitesmoke;" 
+        @click="btnClrData">CLEAR Datas</button></p>
         <AppSetup 
             @addAcc='addNewAccount' 
             @btnCncl='cancelAddAcc' 
@@ -123,7 +134,7 @@ export default {
             :accountsVar="accountsVar"
             @removeAcc2="removeAccount"
             />
-
+<p></p>
 </template>
 
 <style scoped>
