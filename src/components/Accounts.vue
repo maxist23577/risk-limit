@@ -84,7 +84,7 @@ export default {
                     if (this.account.freezeError == "") {
                         account1.freeze = "00"}
                     else {account1.freeze = "000"}
-                }, 10000)
+                }, 20000)
             }
         },
 
@@ -97,7 +97,7 @@ export default {
                     if (this.account.freezeError == "") {
                         account1.freeze = "000"}
                     else {account1.freeze = "00"}
-                }, 10000)
+                }, 20000)
             }
         },
     }   
@@ -115,16 +115,17 @@ export default {
             <p8>Risk Pairs</p8>
             <p9 style="font-size: 12px;"><input type="number" @input="updateRiskPair(account.accEmail, $event.target.value)" :disabled="checkBoxRiskPair" style="width: 50px; font-size: 12px; text-align: center;">%</p9>
             <p3>{{ account.accBalance }}</p3>
-            <p6 v-for="pair in account.accPairs" :key="pair.pair">
+            <p6 v-for="pair in account.accPairs" :key="pair.pair" :style="{'color': parseFloat(pair.pnl) < 0 ? 'red' : 'green'}">
             {{ pair.pnl }}  </p6>
             </div>
         <div class="drawdown">
             <p7><input type="checkbox" v-on:change="checkboxAcc(account.accEmail, $event.target.checked)" v-model="checkBoxRiskAcc"></p7>
             <p8>Risk Account</p8>
             <p9 style="font-size: 12px;"><input type="number" @input="updateRiskAcc(account.accEmail, $event.target.value)" :disabled="checkBoxRiskAcc" style="width: 50px; font-size: 12px; text-align: center;">%</p9>
-            <p4>{{ account.accDD }}</p4>
-            <p6 v-for="pair in account.accPairs" :key="pair.pair">
-            {{ pair.dd }}  </p6>
+            <p4 :style="{'color': parseFloat(account.accDD) < 0 ? 'red' : 'green'}">
+                {{ account.accDD }}</p4>
+            <p6 v-for="pair in account.accPairs" :key="pair.pair" :style="{'color': parseFloat(pair.dd) < 0 ? 'red' : 'green'}">
+                {{ pair.dd }}  </p6>
         </div>  
         <div class="buttons">
             <p7><button v-if="freezeIdent(account.accEmail) === '000'" @click="freezeIt(account.accEmail)" 
@@ -144,7 +145,7 @@ export default {
             <p6 v-for="pair in account.accPairs" :key="pair.pair">
             <button v-on:click="closePairs(account.accEmail, pair.pair)" style="border: 1px; border-radius: 7px; 
             border-style:groove; border-color: darkgreen; font-size: 12px; color: darkgreen;">CLOSE</button></p6>
-            
+            <p style="margin: 5px; text-align: center" :style="{'color': account.errors == 'SubAccount is connected' && account.freezeError == '' ? 'green' : 'red'}">{{ account.errors }} {{ account.freezeError }}</p>
         </div>
     </div>
 <!-- <p>{{ accountsConst }}</p> -->
@@ -241,7 +242,6 @@ export default {
         padding-left: 2px;
         padding-right: 2px;
         margin: auto;
-        color: black;
         font-size: 14px;
     }
     .drawdown p6 {
@@ -251,16 +251,15 @@ export default {
         padding-right: 5px;
         justify-content: center;
         margin: auto;
-        color: black;
         font-size: 12px;
     }
+
     .buttons p7 {
         display: inline-flex;
         width: 173px;
         padding-left: 10px;
         padding-right: 5px;
         justify-content: center;
-        margin: auto;
     }
     .buttons p8 {
         display: inline-flex;
@@ -268,7 +267,6 @@ export default {
         padding-left: 5px;
         padding-right: 5px;
         justify-content: center;
-        margin: auto;
     }
     .buttons p6 {
         display: inline-flex;
@@ -276,7 +274,6 @@ export default {
         padding-left: 5px;
         padding-right: 5px;
         justify-content: center;
-        margin: auto;
     }
 
 </style>

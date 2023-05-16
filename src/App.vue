@@ -82,7 +82,7 @@ export default {
             this.stopTimer()
             this.interval = window.setInterval(() => {
                 this.getInfo()
-            }, 5000)
+            }, 10000)
         }
     
     },
@@ -118,7 +118,10 @@ export default {
 </script>
 
 <template>
-<h1>SubAccount Risk Limit</h1>
+    <div class="navbar">
+        <img src="../SARL-2.jpg" class="logo"/>
+            <h1>SubAccount Risk Limit</h1>
+    </div>
     <p>Master Account API-Key<input type="password" v-model="masterApi" style="width: 330px; margin-left: 5px; font-size: 12px; text-align: left;"></p>
     <p>Master Account API-Secret<input type="password" v-model="masterSecret" style="width: 330px; margin-left: 5px; font-size: 12px; text-align: left;"></p>
     <p><button v-show="btnAddAcc2" style="border: 1px; border-radius: 7px; border-style:dotted ; border-color: black; font-size: 16px; background-color: darkgreen; color: whitesmoke;" 
@@ -134,12 +137,25 @@ export default {
             :accountsVar="accountsVar"
             @removeAcc2="removeAccount"
             />
-<p></p>
+    <p></p>
 </template>
 
 <style scoped>
+    .navbar {
+        background-color: black;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: left;
+    }
+
+    .logo {
+        height: 40px;
+        width: auto;
+        padding: 5px;
+    }
     h1 {
-        color: rgb(6, 59, 6); 
+        color:whitesmoke; 
         display: flex;
         justify-content: center
     }
